@@ -1,1 +1,6 @@
-{!../README.md!}
+# lingcorp
+
+## Corpus annotation
+
+
+## Concordance search

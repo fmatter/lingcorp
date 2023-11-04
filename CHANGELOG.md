@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+* text loading, smoother interface overall
+
 ## [0.1.0] - 2023-XX-XX
 
 Initial release

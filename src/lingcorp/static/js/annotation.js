@@ -4,36 +4,35 @@ function loadText(textID) {
     async: false,
     data: { textID: textID },
     success: function (data) {
-      var exampleIDs = data;
-      console.log(
-        "Loaded text " + textID + " (" + exampleIDs.length + "records)",
-      );
-      $("#examples li").remove();
-      for (let i = 0; i < exampleIDs.length; i++) {
-        $.get({
-          url: "/example",
-          data: { id: exampleIDs[i] },
-          async: false,
-          success: function (data) {
-            $("#examples").append(data);
-          },
-        });
-        fitAll();
+      if (data != "None") {
+        var exampleIDs = data;
+        console.log(
+          "Loaded text " + textID + " (" + exampleIDs.length + "records)",
+        );
+        $("#examples li").remove();
+        for (let i = 0; i < exampleIDs.length; i++) {
+          $.get({
+            url: "/example",
+            data: { id: exampleIDs[i] },
+            async: true,
+            success: function (data) {
+              $("#examples").append(data);
+            },
+          });
+          fitAll();
+        }
       }
     },
   });
 }
 
-$(".textLink").bind("click", function () {
+$("#textlist").on("click", ".list-group-item", function () {
   loadText($(this).attr("id"));
-});
-
-$(document).ready(function () {
-  $("#dataExport").click(function () {
-    $.ajax({
-      url: "/export",
-    });
-  });
+  var listItems = $(".list-group-item");
+  for (let i = 0; i < listItems.length; i++) {
+    listItems[i].classList.remove("active");
+  }
+  $(this).addClass("active");
 });
 
 // var input = document.querySelector('input');

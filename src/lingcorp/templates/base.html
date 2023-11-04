@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>          {% block title %}{% endblock %}
+</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/lingcorp.css')}}" />
+          {% block css %}{% endblock %}
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light"><a href="https://fl.mt/lingcorp">lingcorp</a></div>
+            {%block sidebar %}{%endblock%}
+        </div>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <!-- Top navigation-->
+            <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+
+                    <div class="navbar-nav">
+          {% block navbar %}{% endblock %}
+
+                    </div>
+
+                </div>
+            </nav>
+
+          {% block content %}{% endblock %}
+
+        </div>
+    </div>
+</div>
+<!-- jquery JS-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+          {% block javascript %}{% endblock %}
+</body>
+</html>

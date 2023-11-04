@@ -87,6 +87,7 @@ data = load_data(
     }
 )
 
+texts = None
 if data is not None:
     uniparser = None
     for p in pipeline:
@@ -155,6 +156,8 @@ def reparse(ex_id, target):
 
 @app.route("/example")
 def example():
+    if data is None:
+        return "None"
     exid = request.args.get("id")
     ex = data.loc[exid]
     field_data = {"precord": {}, "record": {}, "word": {}, "translations": {}}
@@ -187,13 +190,19 @@ def get_output():
 
 @app.route("/texts")
 def get_texts():
-    return list(texts.keys())
+    if texts is not None:
+        return list(texts.keys())
+    return "None"
 
 
 @app.route("/textrecords")
 def textrecords():
-    text_id = request.args.get("textID")
-    return texts[text_id]
+    if texts is not None:
+        text_id = request.args.get("textID")
+        if not text_id:
+            return "None"
+        return texts[text_id]
+    return "None"
 
 
 @app.route("/export")
