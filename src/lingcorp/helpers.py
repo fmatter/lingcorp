@@ -53,9 +53,6 @@ def insert_pos_rec(rec, pos_list):
     rec["pos"] = []
     for grm in rec["grm"]:
         res = get_pos(grm, pos_list=pos_list)
-        # if rec["ID"] == "ctoyucairdi-63":
-        #     print(grm)
-        #     input(res)
         rec["pos"].append(res or "?")
     assert len(rec["grm"]) == len(rec["pos"])
     return rec
@@ -116,7 +113,6 @@ def load_annotations(key, field, data, rec_id=None):
                             "split"
                         ):  # and ref in data.loc[rec_id][field["ref"]][idx].split(" ") and value:
                             # data.loc[rec_id][key][idx] = value
-                            print("EEEEEEEeeee")
                             print(ref, value)
                             print(data.loc[rec_id][key][idx][field["ref"]])
                             exit()
