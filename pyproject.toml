@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lingcorp"
-version = "0.1.1"
+version = "0.1.2.dev"
 license = "Apache-2.0"
 homepage = "https://fl.mt/lingcorp"
 repository = "https://github.com/fmatter/lingcorp"
