@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "lingcorp"
+version = "0.1.0.dev"
+license = "Apache-2.0"
+homepage = "https://fl.mt/lingcorp"
+repository = "https://github.com/fmatter/lingcorp"
+readme = "README.md"
+description = "CSV-based linguistic corpus annotation and search."
+authors = ["Florian Matter <flmt@mailbox.org>"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+
+[tool.poetry.urls]
+"Bug tracker" = "https://github.com/fmatter/lingcorp/issues"
+
+
+[tool.poetry.scripts]
+lingcorp = 'lingcorp.cli:main'
+
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+pytest = "^7.4.2"
+segments = "^2.2.1"
+questionary = "^2.0.1"
+humidifier = "^0.0.2"
+pyigt = "^2.0.0"
+tqdm = "^4.66.1"
+flask = "^3.0.0"
+bootstrap-flask = "^2.3.2"
+pygraid = "^0.1.0"
+parsimonious = "^0.10.0"
+pandas = "^2.0.1"
+writio = "^0.1.0"
+
+[tool.poetry.group.dev.dependencies]
+keepachangelog = "^1.0.0"
+
+pytest = "^7.4.2"
+black = "^23.9.1"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.4.4"
+invoke = "^2.2.0"
+isort = "^5.12.0"
+prospector = "^1.10.2"
+coverage = "^7.3.2"
+mkdocstrings = "^0.23.0"
+markdown-include = "^0.8.1"
+click = "^8.1.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

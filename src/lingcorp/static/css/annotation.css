@@ -1,0 +1,71 @@
+@charset utf-8;
+
+.interlinear-wrapper {
+  clear: both;
+  text-align: left;
+}
+
+.interlinear {
+  float: left;
+  margin: 0.25em;
+  text-align: left;
+}
+
+.interlinear .obj,
+.interlinear .gls,
+.interlinear-wrapper {
+  display: block;
+  margin: 2px 0;
+}
+
+.ftr,
+.cmt {
+  clear: both;
+}
+
+.ftr::before {
+  content: "‘";
+}
+
+.ftr::after {
+  content: "’";
+}
+
+.oft::before {
+  content: "‘";
+}
+
+.oft::after {
+  content: "’";
+}
+
+li.example {
+  border: 3px solid black;
+  font-family: "Noto Sans", sans-serif;
+  margin: 20px 0;
+  padding: 0.5em;
+}
+
+ol {
+  counter-reset: list;
+}
+ol > li {
+  counter-increment: list;
+  list-style: none;
+}
+
+li.example::marker {
+  content: "(" counter(list) ") \a0";
+}
+
+ol.example {
+  list-style-type: lower-alpha;
+}
+
+ol.subexample {
+  list-style-type: lower-alpha;
+}
+
+.cmt {
+  margin: 7px 0;
+}

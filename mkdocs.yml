@@ -1,0 +1,46 @@
+site_name: lingcorp
+repo_url: https://github.com/fmatter/lingcorp
+plugins:
+  - search
+  - mkdocstrings
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - toc.follow
+    - toc.integrate
+  palette: 
+
+    # Palette toggle for light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+repo_url: https://github.com/fmatter/lingcorp
+markdown_extensions:
+  - markdown_include.include:
+      base_path: docs
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      pygments_style: nord
+      noclasses: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
