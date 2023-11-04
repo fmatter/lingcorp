@@ -34,7 +34,7 @@ $(document).ready(function () {
             var active = "";
           }
           $("#filelist").append(
-            `<a class="list-group-item list-group-item-light p-3${active}" id="${dataFiles[i]}">${dataFiles[i]}</a>`,
+            `<a class="list-group-item list-group-item-light p-1${active}" id="${dataFiles[i]}">${dataFiles[i]}</a>`,
           );
         }
         file = dataFiles[0];
