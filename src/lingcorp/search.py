@@ -2,12 +2,13 @@ import logging
 import re
 import sys
 from pathlib import Path
+
 import pandas as pd
 import pygraid
-from lingcorp.cql import parse
-from writio import dump
-from writio import load
 from conf import REC_LINK
+from writio import dump, load
+
+from lingcorp.cql import parse
 
 log = logging.getLogger(__name__)
 

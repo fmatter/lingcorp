@@ -1,9 +1,10 @@
+import logging
 import re
+from dataclasses import dataclass
+
+from parsimonious.exceptions import ParseError
 from parsimonious.grammar import Grammar
 from parsimonious.nodes import NodeVisitor
-from parsimonious.exceptions import ParseError
-from dataclasses import dataclass
-import logging
 
 log = logging.getLogger(__name__)
 

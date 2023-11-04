@@ -1,20 +1,21 @@
 import logging
 from pathlib import Path
+
 import pygraid
 import questionary
 from humidifier import humidify
-from writio import dump
-from writio import load
-from lingcorp.annotator import Annotator
-from lingcorp.config import GRAID_KEY
-from lingcorp.config import ID_KEY
-from lingcorp.helpers import choose_from_list
-from lingcorp.helpers import favorite
-from lingcorp.helpers import highlight_list
-from lingcorp.helpers import human_sort
-from lingcorp.helpers import pad_ex
-from lingcorp.helpers import print_record
+from writio import dump, load
 
+from lingcorp.annotator import Annotator
+from lingcorp.config import GRAID_KEY, ID_KEY
+from lingcorp.helpers import (
+    choose_from_list,
+    favorite,
+    highlight_list,
+    human_sort,
+    pad_ex,
+    print_record,
+)
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)

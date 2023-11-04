@@ -2,14 +2,13 @@ import logging
 import re
 import time
 from pathlib import Path
+
 import pandas as pd
-from segments import Profile
-from segments import Tokenizer
-from writio import dump
-from writio import load
+from segments import Profile, Tokenizer
+from writio import dump, load
+
 from lingcorp.config import ID_KEY
 from lingcorp.helpers import uniparser_fields
-
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)

@@ -1,8 +1,5 @@
-from lingcorp.config import INPUT_DIR
-from lingcorp.config import OUTPUT_DIR
-from lingcorp.helpers import get_pos
-from lingcorp.helpers import load_data
-from lingcorp.helpers import run_pipeline
+from lingcorp.config import INPUT_DIR, OUTPUT_DIR
+from lingcorp.helpers import get_pos, load_data, run_pipeline
 
 
 def parse_df(parser_list, out_f, df, interactive):

@@ -1,5 +1,6 @@
-from lingcorp import Cleaner, Tokenizer, UniParser, Parser
 from pathlib import Path
+
+from lingcorp import Cleaner, Parser, Tokenizer, UniParser
 
 # You can define your own parser classes here, inheriting from Parser
 
@@ -13,6 +14,4 @@ REC_LINK = "http://url/to/your/records/{rec_id}"
 INPUT_FILE = "all"
 OUTPUT_FILE = f"parsed.csv"
 FILTER = {}
-AUDIO_PATH = Path(
-    "path/to/your/audio/folder"
-)
+AUDIO_PATH = Path("path/to/your/audio/folder")

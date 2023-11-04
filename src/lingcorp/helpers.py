@@ -1,6 +1,7 @@
 import logging
 import re
 from collections import Counter
+
 import pandas as pd
 import pygraid
 import questionary
@@ -8,8 +9,8 @@ from humidifier import humidify
 from pyigt import IGT
 from tqdm import tqdm
 from writio import load
-from lingcorp.config import INPUT_DIR
 
+from lingcorp.config import INPUT_DIR
 
 SEC_JOIN = ","
 

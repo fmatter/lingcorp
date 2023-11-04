@@ -1,10 +1,11 @@
 import logging
 import sys
 from pathlib import Path
+
 import click
 import colorlog
-from lingcorp.clitools import parse_csvs
 
+from lingcorp.clitools import parse_csvs
 
 handler = colorlog.StreamHandler(None)
 handler.setFormatter(
@@ -29,11 +30,8 @@ def main():
 @click.option("--limit", default=None, type=int)
 @click.option("--text", default=None)
 def cli(limit, text):
-    from conf import FILTER
     from conf import INPUT_FILE  # pylint: disable=import-outside-toplevel,import-error
-    from conf import OUTPUT_FILE
-    from conf import pipeline
-    from conf import pos_list
+    from conf import FILTER, OUTPUT_FILE, pipeline, pos_list
 
     parse_csvs(pipeline, OUTPUT_FILE, FILTER, pos_list)
 
@@ -41,4 +39,5 @@ def cli(limit, text):
 @main.command()
 def web():
     from lingcorp.server import run_server
+
     run_server()
