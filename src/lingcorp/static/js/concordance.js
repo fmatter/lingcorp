@@ -21,24 +21,24 @@ $(document).ready(function () {
     url: "/data",
     async: false,
     success: function (dataFiles) {
-        console.log(dataFiles)
+      console.log(dataFiles);
       if (dataFiles.length == []) {
-          $("#filelist").append(
-            `<a class="list-group-item list-group-item-action list-group-item-light p-3 disabled">Output directory is empty, export or add manually add data.</a>`,
-          );
-      } else {
-      for (let i = 0; i < dataFiles.length; i++) {
-        if (i == 0) {
-          var active = " active";
-        } else {
-          var active = "";
-        }
         $("#filelist").append(
-          `<a class="list-group-item list-group-item-light p-3${active}" id="${dataFiles[i]}">${dataFiles[i]}</a>`,
+          `<a class="list-group-item list-group-item-action list-group-item-light p-3 disabled">Output directory is empty, export or add manually add data.</a>`,
         );
+      } else {
+        for (let i = 0; i < dataFiles.length; i++) {
+          if (i == 0) {
+            var active = " active";
+          } else {
+            var active = "";
+          }
+          $("#filelist").append(
+            `<a class="list-group-item list-group-item-light p-3${active}" id="${dataFiles[i]}">${dataFiles[i]}</a>`,
+          );
+        }
+        file = dataFiles[0];
       }
-      file = dataFiles[0];
-  }
     },
   });
 
