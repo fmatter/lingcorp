@@ -44,7 +44,7 @@ $(document).ready(function () {
 
   function runQuery() {
     const query = $("#query").val();
-    console.log(file);
+    $("#results").html("Running query...");
     $.ajax({
       url: "/search",
       data: { query: JSON.stringify(query), filename: JSON.stringify(file) },

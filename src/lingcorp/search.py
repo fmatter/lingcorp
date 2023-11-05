@@ -358,7 +358,7 @@ class CorpusFrame(pd.DataFrame):
             handle = rec.get(
                 "ID", rec.get("id", rec.get("rec", rec[list(rec.keys())[0]]))
             )
-            log.warning(f"Inconsistent alignment: {handle}")
+            log.warning(f"Inconsistent number of interlinear items: {handle}")
 
     def query(
         self,
