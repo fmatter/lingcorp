@@ -41,6 +41,7 @@ pygraid = "^0.1.0"
 parsimonious = "^0.10.0"
 pandas = "^2.0.1"
 writio = "^0.1.0"
+cookiecutter = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 keepachangelog = "^1.0.0"

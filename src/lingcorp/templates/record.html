@@ -7,7 +7,7 @@
                     {% if field.get("edit") %}
                     <div class="{{key}}"><input type="text" value="{{ ex[key] }}" id="{{ex['ID']}}_{{key}}"></div>
                     {% else %}
-                    <span class="{{key}}">{{ ex[key] }}</span>
+                    <div><span class="{{key}}">{{ ex[key] }}</span></div>
                     {% endif %}
                 {% endfor %}
                 {% for item in ex["obj"] %}

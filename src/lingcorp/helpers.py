@@ -13,6 +13,7 @@ from writio import load
 from lingcorp.config import INPUT_DIR
 
 SEC_JOIN = ","
+SEP = "\t"
 
 uniparser_fields = {
     "wf": "srf",
@@ -31,11 +32,14 @@ log = logging.getLogger(__name__)
 ud_pos = ["v"]
 
 
-def load_data(rename={}, filter_params={}):
-    log.info("Loading data")
+def load_data(fields={}, filter_params={}):
+    log.info("Loading data...")
     dfs = []
-    for file in INPUT_DIR.glob("*.csv"):
-        dfs.append(load(file, index_col="ID"))
+    filelist = list(INPUT_DIR.glob("*.csv"))
+    for file in tqdm(filelist, "Scanning input directory"):
+        df = load(file, index_col="ID")
+        df["filename"] = file.name
+        dfs.append(df)
     if not dfs:
         return None
     data = pd.concat(dfs)
@@ -44,7 +48,11 @@ def load_data(rename={}, filter_params={}):
             data = data[data[k] == v[0]]
         else:
             data = data[data[k] == v]
-    data.rename(columns=rename, inplace=True)
+    for key, field_data in fields.items():
+        if field_data.get("label", None) in data.columns:
+            data.rename(columns={field_data["label"]: key}, inplace=True)
+            if field_data.get("lvl", None) == "word":
+                data[key] = data[key].apply(lambda x: x.split(SEP))
     data["ID"] = data.index
     return data
 

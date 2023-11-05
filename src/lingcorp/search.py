@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 import pygraid
 from conf import config
+from tqdm import tqdm
 from writio import dump, load
 
 from lingcorp.cql import parse
@@ -232,7 +233,9 @@ class CorpusFrame(pd.DataFrame):
             postto = len(record[target_col])
         post = slice(end + 1, postto)
         if mode == "rich":
-            link = config.get("rec_link", "http://localhost:6543/sentences/{rec_id}").format(rec_id=record["rec"])
+            link = config.get(
+                "rec_link", "http://localhost:5001/example/{rec_id}"
+            ).format(rec_id=record["rec"])
             if link:
                 rec_text = f"""<a href="{link}">{record["rec"]}</a>"""
             else:
@@ -380,15 +383,17 @@ class CorpusFrame(pd.DataFrame):
             if i >= len(alternatives):
                 return f"Invalid query: '{query_string}'"
         roundtrip = " ".join(str(x) for x in tokens)
-        print(f"Query: {roundtrip} == {query_string}")
+        log.info(f"Searching for {query_string} ({roundtrip})")
         rec_dics = {}
-        for i, rec in enumerate(self.to_dict("records")):
+        i = 0
+        for rec in tqdm(self.to_dict("records"), desc="Preparing word items"):
             rec_dics[i] = []
             for idx, dic in self.iter_words(rec, self.aligned_cols):
                 other_dic = {col: rec[col] for col in self.record_level if col in rec}
                 rec_dics[i].append({**dic, **{"idx": idx, "i": i}, **other_dic})
+            i += 1
         kwics = []
-        for rec_idx, word_dics in rec_dics.items():
+        for rec_idx, word_dics in tqdm(rec_dics.items(), desc="Building concordance"):
             start = None
             i = 0
             j = 0
@@ -445,10 +450,12 @@ class CorpusFrame(pd.DataFrame):
                 #         "legend": f"Search results for {roundtrip}",
                 #     }
                 # )
+                log.info("Rendering HTML...")
                 res = kwics.to_html(index=False, escape=False)
                 if name:
                     self.conc_dir.mkdir(exist_ok=True, parents=True)
                     dump(res, f"{self.conc_dir}/{name}.html")
+                log.info("Finished query search")
                 return res
             elif conc_mode == "csv":
                 self.conc_dir.mkdir(exist_ok=True, parents=True)

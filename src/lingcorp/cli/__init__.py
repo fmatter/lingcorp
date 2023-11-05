@@ -1,20 +1,24 @@
-from lingcorp.config import INPUT_DIR, OUTPUT_DIR
-from lingcorp.helpers import get_pos, load_data, run_pipeline
-
 import logging
 import sys
 from pathlib import Path
 
 import click
 import colorlog
+from cookiecutter.exceptions import OutputDirExistsException
+from cookiecutter.main import cookiecutter
+
+import lingcorp
+from lingcorp.config import INPUT_DIR, OUTPUT_DIR
+from lingcorp.helpers import get_pos, load_data, run_pipeline
 
 handler = colorlog.StreamHandler(None)
 handler.setFormatter(
     colorlog.ColoredFormatter("%(log_color)s%(levelname)-7s%(reset)s %(message)s")
 )
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
-log.propagate = False
+global log
+log = logging.getLogger()
+log.setLevel(logging.INFO)
+log.propagate = True
 log.addHandler(handler)
 
 
@@ -33,7 +37,12 @@ def main():
 def cli(limit, text):
     from conf import config, pipeline, pos_list
 
-    parse_csvs(pipeline, config.get("output_file", "parsed.csv"), config.get("filter", {}), pos_list)
+    parse_csvs(
+        pipeline,
+        config.get("output_file", "parsed.csv"),
+        config.get("filter", {}),
+        pos_list,
+    )
 
 
 @main.command()
@@ -42,15 +51,25 @@ def web():
 
     run_server()
 
+
+@main.command()
+@click.argument("name")
+def new(name):
+    try:
+        cookiecutter(
+            str(Path(lingcorp.__file__).parent / "project_template"),
+            output_dir=name,
+        )
+    except OutputDirExistsException as e:
+        print(e)
+        print("Run with --force option to overwrite!")
+        raise ValueError()
+
+
 def parse_csvs(pipeline, out_f, filter_params=None, pos_list=None):
     fields = {x["key"]: x for x in pipeline if isinstance(x, dict)}
     data = load_data(
-        rename={
-            "Primary_Text": "ort",
-            "Translated_Text": "oft",
-            "Speaker_ID": "spk",
-            "Text_ID": "txt",
-        },
+        fields=fields,
         filter_params=filter_params,
     )
     annotations = {}

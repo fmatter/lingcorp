@@ -26,7 +26,7 @@ from lingcorp.search import CorpusFrame
 AUDIO_PATH = Path(config.get("audio_path", ""))
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
+# log.setLevel(logging.DEBUG)
 
 
 app = Flask(__name__, static_url_path="/static")
@@ -77,15 +77,7 @@ def parse_graid(df, aligned_fields, target="all"):
 
 
 fields = {x["key"]: x for x in pipeline if isinstance(x, dict)}
-
-data = load_data(
-    rename={
-        "Primary_Text": "ort",
-        "Translated_Text": "oft",
-        "Speaker_ID": "spk",
-        "Text_ID": "txt",
-    }
-)
+data = load_data(fields=fields)
 
 texts = None
 if data is not None:
@@ -96,6 +88,7 @@ if data is not None:
 
     annotations = {}
     data = run_pipeline(data, annotations, pipeline, pos_list)
+
     data.index = data["ID"]
     audios = []
     for x in AUDIO_PATH.iterdir():
@@ -119,8 +112,12 @@ if data is not None:
     texts = {}
     if "graid" in data.columns:
         data = pd.DataFrame.from_dict(parse_graid(data, aligned_fields))
-    for text_id, textdata in data.groupby("txt"):
-        texts[text_id] = list(textdata.index)
+    for target in ["txt", "filename", "Language_ID"]:
+        if target in data.columns:
+            for text_id, textdata in data.groupby(target):
+                texts[text_id] = list(textdata.index)
+            break
+log.info("Annotation setup completed")
 
 
 def save():
@@ -154,10 +151,22 @@ def reparse(ex_id, target):
     return data.loc[ex_id]
 
 
+@app.route("/example/<exid>")
+def example_detail(exid):
+    ex = data.loc[exid]
+    field_data = {"precord": {}, "record": {}, "word": {}, "translations": {}}
+    for key, field in fields.items():
+        if key not in ex:
+            continue
+        field_data.setdefault(field["lvl"], {})
+        field_data[field["lvl"]][key] = field
+    return render_template(
+        "rich_record.html", ex=ex, fields=field_data, top_align="ann"
+    )
+
+
 @app.route("/example")
 def example():
-    if data is None:
-        return "None"
     exid = request.args.get("id")
     ex = data.loc[exid]
     field_data = {"precord": {}, "record": {}, "word": {}, "translations": {}}
@@ -185,7 +194,7 @@ def get_output():
     for f in Path(OUTPUT_DIR).iterdir():
         if f.suffix == ".csv":
             res.append(f.name)
-    return res
+    return sorted(res)
 
 
 @app.route("/texts")
@@ -349,10 +358,9 @@ def get_conc_fields():
 
 @app.route("/search")
 def search():
-    print(request.args.get("query"))
-    print(request.args.get("filename"))
     query = json.loads(request.args.get("query"))
     filename = json.loads(request.args.get("filename"))
+    log.info(f"Loading {filename}...")
     df = CorpusFrame(f"output/{filename}", list_cols=["mid", "grm"])
     return df.query(query, name=None, mode="rich")
 

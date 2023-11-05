@@ -16,12 +16,13 @@ log.setLevel(logging.DEBUG)
 
 class Annotator:
     def __init__(self, name="unnamed", **kwargs):
+        """The parse method takes a text record, does something to it, then returns it."""
         self.name = name
         self.annotated_path = Path(f"{self.name}.yaml")
         self.annotated = load(self.annotated_path)
 
     def parse(self, record):
-        """Placeholder function. Returns a record with added data"""
+        """The parse method takes a text record, does something to it, then returns it."""
         return record
 
     def save(self):
@@ -67,14 +68,7 @@ class Cleaner(Annotator):
     def parse(self, rec):
         rec[self.output_col] = ortho_strip(
             rec[self.src], replace=self.replace, strip=self.strip
-        )  # (
-        #     self.ortho_strip(
-        #         rec[self.src], exceptions=[","], additions=["%", "¿", "###", "#"]
-        #     )
-        #     .replace("  ", " ")
-        #     .replace("  ", " ")
-        #     .strip(" ")
-        # )
+        )
         return rec
 
 
@@ -207,7 +201,6 @@ class UniParser(Annotator):
         return record
 
     def register_choice(self, record_id, pos, obj, choice):
-        # print("AH HA!", record_id, pos, obj, choice, self.annotated_path)
         self.annotated.setdefault(record_id, {})
         self.annotated[record_id].setdefault(int(pos), {})
         self.annotated[record_id][int(pos)][

@@ -86,7 +86,7 @@ $(function () {
         data: { value: res, target: id },
         success: function (data) {
           $.ajax({
-            url: "/example",
+            url: "/example/",
             data: { id: exampleItem.id },
             success: function (result) {
               result = $.parseHTML(result);
