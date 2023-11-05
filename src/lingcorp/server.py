@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 import pygraid
-from conf import AUDIO_PATH, pipeline, pos_list
+from conf import config, pipeline, pos_list
 from flask import Flask, render_template, request, send_from_directory
 from flask_bootstrap import Bootstrap5
 from writio import dump
@@ -23,7 +23,7 @@ from lingcorp.helpers import (
 )
 from lingcorp.search import CorpusFrame
 
-AUDIO_PATH = Path(AUDIO_PATH)
+AUDIO_PATH = Path(config.get("audio_path", ""))
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)

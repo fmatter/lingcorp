@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 * reduced height of list items
+* configuration in a dict & optional values
 
 ## [0.1.1] - 2023-11-04
 

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 import pygraid
-from conf import REC_LINK
+from conf import config
 from writio import dump, load
 
 from lingcorp.cql import parse
@@ -50,7 +50,7 @@ class CorpusFrame(pd.DataFrame):
     clause_list = []
     graid = None
     current_clause = None
-    record_level = ["rec", "spk", "txt", "lng"]
+    record_level = ["rec", "spk", "txt", "lng", "ftr"]
     graid_cols = ["type", "syn", "anim", "ref", "pred", "form", "func"]
     aligned_cols = [
         "obj",
@@ -232,7 +232,7 @@ class CorpusFrame(pd.DataFrame):
             postto = len(record[target_col])
         post = slice(end + 1, postto)
         if mode == "rich":
-            link = REC_LINK.format(rec_id=record["rec"])
+            link = config.get("rec_link", "http://localhost:6543/sentences/{rec_id}").format(rec_id=record["rec"])
             if link:
                 rec_text = f"""<a href="{link}">{record["rec"]}</a>"""
             else:

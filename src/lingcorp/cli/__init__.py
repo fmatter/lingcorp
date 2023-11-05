@@ -1,26 +1,46 @@
 from lingcorp.config import INPUT_DIR, OUTPUT_DIR
 from lingcorp.helpers import get_pos, load_data, run_pipeline
 
+import logging
+import sys
+from pathlib import Path
 
-def parse_df(parser_list, out_f, df, interactive):
-    full_df = pd.read_csv(OUTPUT_DIR / out_f, index_col=ID_COL, keep_default_na=False)
-    parsed_dfs = [full_df]
-    for parser in parser_list:
-        output = []
-        parser.interactive = interactive
-        for idx, record in df.iterrows():
-            if idx in full_df.index:
-                log.warning(f"Overwriting existing analysis of record {idx}")
-                parser.clear(idx)
-                full_df.drop([idx], inplace=True)
-            output.append(parser.parse(record))
-        parsed_dfs.append(pd.DataFrame.from_dict(output))
-        parser.write()
-    df = pd.concat(parsed_dfs)
-    df = df.fillna("")
-    df.index.name = ID_COL
-    df.to_csv(OUTPUT_DIR / out_f)
+import click
+import colorlog
 
+handler = colorlog.StreamHandler(None)
+handler.setFormatter(
+    colorlog.ColoredFormatter("%(log_color)s%(levelname)-7s%(reset)s %(message)s")
+)
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+log.propagate = False
+log.addHandler(handler)
+
+
+sys.path.append(str(Path.cwd()))
+PIPELINE = "conf.py"
+
+
+@click.group()
+def main():
+    pass
+
+
+@main.command()
+@click.option("--limit", default=None, type=int)
+@click.option("--text", default=None)
+def cli(limit, text):
+    from conf import config, pipeline, pos_list
+
+    parse_csvs(pipeline, config.get("output_file", "parsed.csv"), config.get("filter", {}), pos_list)
+
+
+@main.command()
+def web():
+    from lingcorp.server import run_server
+
+    run_server()
 
 def parse_csvs(pipeline, out_f, filter_params=None, pos_list=None):
     fields = {x["key"]: x for x in pipeline if isinstance(x, dict)}
