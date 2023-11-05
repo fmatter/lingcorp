@@ -1,0 +1,97 @@
+{% extends 'annotation.html' %}
+
+{% block title %}
+{{ex["ID"]}}
+{% endblock %}
+
+{% block content %}
+{% set ns = namespace(idx=-1) %}
+            <!-- Page content-->
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-10">
+                        <ol>
+<li class="example" id ="{{ ex['ID'] }}">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8 interlinear-wrapper">
+                {% for key, field in fields["precord"].items() %}
+                    {% if field.get("edit") %}
+                    <div class="{{key}}"><input type="text" value="{{ ex[key] }}" id="{{ex['ID']}}_{{key}}"></div>
+                    {% else %}
+                    <div><span class="{{key}}">{{ ex[key] }}</span></div>
+                    {% endif %}
+                {% endfor %}
+                {% for item in ex["obj"] %}
+                    {% set empty = False %}
+                    {% if not item %}
+                        {% set empty = True %}
+                    {% else %}
+                        {% set ns.idx = ns.idx+1 %}
+                    {% endif %}
+                {% set i = loop.index-1 %}
+                <div class="interlinear">
+                    {% for key, field in fields["word"].items() %}
+                        {% if field.get("dropdown") and ex[key][i] %}
+                            HELLO :)
+                        {% elif field.get("edit") and not empty %}
+                            {% if key=="graid" %}
+                                <input data-toggle="tooltip" data-placement="top" title="Graid annotation" class="gls" size="20px" type="text" value="{{ex[key][i]}}" id="{{ex['ID']}}_{{key}}_{{ns.idx}}">
+                            {%else %}
+                                <span style="" class="{{key}}"><input size="7px" type="text" value="{{ex[key][i]}}" class="gls" id="{{ex['ID']}}_{{key}}_{{ns.idx}}"></span>
+                            {% endif %}
+                        {% elif not field.get("hide") %}
+                            {% if key=="gls" and (ex.get("anas", [""]*ns.idx)[ns.idx]) and not empty %}
+                                <div class="dropdown">
+                                    {% if ex["ana"][ns.idx] == "?" %}
+                                        {% set style = " border: 3px solid red; text-align: center; "%}
+                                    {% else %}
+                                        {% set style = " border: 3px solid green; text-align: center; "%}
+                                    {% endif %}
+                                    <div style="{{style}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ex["ana"][ns.idx]}}
+                                    </div>
+                                    <ul class="dropdown-menu">
+                                        {% for id, option in ex["anas"][ns.idx].items() %}
+                                            <li><a id="{{ex['ID']}}_ana_{{ns.idx}}_{{i}}" class="dropdown-item">{{ id | safe}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div> 
+                            {% elif (empty and key != "ann") or (not ex[key][i]) %}
+                                <span class="gls">&nbsp;</span>
+                            {% else %}
+                                <span class="{{key}}">{{ ex[key][i] | safe}}</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+                {% for key, field in fields["translations"].items() %}
+                    {% if field.get("edit") %}
+                        <div class="{{key}}"><input placeholder="{{field['label']}}" type="text" value="{{ ex[key] }}" id="{{ex['ID']}}_{{key}}"></div>
+                    {% else %}
+                        <div class="{{key}}">{{ ex[key] }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                {% for key, field in fields["record"].items() %}
+                    {% if field.get("edit") %}
+                        <div class="{{key}}"><input placeholder="{{field['label']}}" type="text" value="{{ ex[key] }}" id="{{ex['ID']}}_{{key}}"></div>
+                    {% elif not field.get("hide") %}
+                        <div class="{{key}}">{{ ex[key] }}</div>
+                    {% endif %}
+                {% endfor %}
+                {% if ex["audio"] %}
+                    <audio controls src="/audio/{{ex['ID']}}.wav" type="audio/xwav"></audio>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+{% endblock %}
