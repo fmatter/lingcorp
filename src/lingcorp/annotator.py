@@ -11,7 +11,7 @@ from lingcorp.config import ID_KEY
 from lingcorp.helpers import uniparser_fields
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
+# log.setLevel(logging.DEBUG)
 
 
 class Annotator:
