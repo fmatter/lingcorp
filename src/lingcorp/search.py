@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pandas as pd
 import pygraid
-from conf import config
 from tqdm import tqdm
 from writio import dump, load
 
@@ -223,6 +222,11 @@ class CorpusFrame(pd.DataFrame):
     def build_conc_line(
         self, record, start, end, context=5, target_col="obj", add_col=None, mode="rich"
     ):
+        try:
+            from conf import config
+        except ImportError:
+            log.error("Please make sure there is a lingcorp conf.py file in your working directory.")
+            sys.exit()
         add_col = add_col or []
         prefrom = start - context
         if prefrom < 0:
@@ -358,7 +362,7 @@ class CorpusFrame(pd.DataFrame):
             handle = rec.get(
                 "ID", rec.get("id", rec.get("rec", rec[list(rec.keys())[0]]))
             )
-            tqdm.write(f"Inconsistent number of interlinear items: {handle} ({cols})")
+            tqdm.write(f"Inconsistent number of interlinear items: {handle}")
 
     def query(
         self,
