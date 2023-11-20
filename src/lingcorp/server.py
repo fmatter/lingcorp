@@ -315,7 +315,6 @@ def build_example_div(ex_ids, audio=None):
             continue
         field_data.setdefault(field["lvl"], {})
         field_data[field["lvl"]][key] = field
-    print(field_data)
     return render_template(
         "index.html", exes=ex.to_dict("records"), fields=field_data, top_align="ann"
     )
