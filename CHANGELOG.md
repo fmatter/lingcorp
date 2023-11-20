@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+* add record-level fields from conf.py
+
 ## [0.1.2] - 2023-11-05
 
 ### Added

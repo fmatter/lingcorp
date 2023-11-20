@@ -26,8 +26,7 @@ class Annotator:
         return record
 
     def save(self):
-        if self.annotated is not None:
-            dump(self.annotated, self.annotated_path)
+        pass
 
 
 class Tokenizer(Annotator):

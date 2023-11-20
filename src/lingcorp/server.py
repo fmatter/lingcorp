@@ -234,7 +234,6 @@ def export():
 
 def set_up_choice(rec, orig_pos, shifted_pos, choice):
     log.debug(f"Shifting {rec['ID']} from {orig_pos} to {shifted_pos}")
-    print(rec)
     if rec["anas"][int(orig_pos)][choice] != "?":
         for field in ["obj", "gls", "lex", "grm", "mid"]:
             rec[field][int(orig_pos)] = rec["anas"][int(orig_pos)][choice].get(

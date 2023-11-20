@@ -53,6 +53,9 @@ def load_data(fields={}, filter_params={}):
             data.rename(columns={field_data["label"]: key}, inplace=True)
             if field_data.get("lvl", None) == "word":
                 data[key] = data[key].apply(lambda x: x.split(SEP))
+        else:
+            if field_data.get("lvl") in ["translations", "record"]:
+                data[key] = ""
     data["ID"] = data.index
     return data
 
@@ -183,8 +186,7 @@ def run_pipeline(data, annotations, pipeline, pos_list):
             res = []
             for x in tqdm(data.to_dict("records")):
                 res.append(item.parse(x))
-            if hasattr(item, "cache"):
-                item.save()
+            item.save()
             data = pd.DataFrame.from_dict(res)
             data.index = data["ID"]
     if "grm" in data.columns:
@@ -535,6 +537,4 @@ def render_graid(
                 modified_lines[col].append(special_empty.get(col, empty))
         for col, values in modified_lines.items():
             ex[col] = values
-        if ex["ID"] == "ctorat-1":
-            print(ex)
     return ex
