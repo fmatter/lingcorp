@@ -189,7 +189,7 @@ def run_pipeline(data, annotations, pipeline, pos_list):
             item.save()
             data = pd.DataFrame.from_dict(res)
             data.index = data["ID"]
-    if "grm" in data.columns:
+    if "grm" in data.columns and "pos" not in data.columns:
         data = data.apply(lambda x: insert_pos_rec(x, pos_list=pos_list), axis=1)
         data = data.apply(lambda x: add_wid(x), axis=1)
     return data

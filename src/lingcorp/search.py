@@ -247,7 +247,7 @@ class CorpusFrame(pd.DataFrame):
             if "txt" in record:
                 rec_text += (
                     " "
-                    + f"""<a href="http://localhost:5001/annotation/{record["txt"]}#{record["rec"]}">🖉</a>"""
+                    + f"""<a href="http://localhost:5001/example/{record["rec"]}">🖉</a>"""
                 )
             conc_dict = {
                 "Record": rec_text,
