@@ -225,7 +225,9 @@ class CorpusFrame(pd.DataFrame):
         try:
             from conf import config
         except ImportError:
-            log.error("Please make sure there is a lingcorp conf.py file in your working directory.")
+            log.error(
+                "Please make sure there is a lingcorp conf.py file in your working directory."
+            )
             sys.exit()
         add_col = add_col or []
         prefrom = start - context
